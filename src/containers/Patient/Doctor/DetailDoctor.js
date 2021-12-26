@@ -4,12 +4,14 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss";
 import { getDetailInforDoctor } from "../../../services/userService";
 import DoctorSchedule from "./DoctorSchedule";
+import DoctorExtraInfor from "./DoctorExtraInfor";
 
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       detailDoctor: {},
+      currentDoctorId: -1,
     };
   }
   async componentDidMount() {
@@ -19,6 +21,9 @@ class DetailDoctor extends Component {
       this.props.match.params.id
     ) {
       let id = this.props.match.params.id;
+      this.setState({
+        currentDoctorId: id,
+      });
       let res = await getDetailInforDoctor(id);
       if (res && res.errCode === 0) {
         this.setState({
@@ -26,16 +31,16 @@ class DetailDoctor extends Component {
         });
       }
 
-      console.log("check res from detail-doctor: ", res);
+      //console.log("check res from detail-doctor: ", res);
     }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}
   render() {
-    console.log("check state from detail doctor: ", this.state);
+    //console.log("check state from detail doctor: ", this.state);
     let { detailDoctor } = this.state;
     let nameDoctor = "";
     if (detailDoctor && detailDoctor.positionData) {
-      nameDoctor = `${detailDoctor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
+      nameDoctor = `${detailDoctor.positionData.valueVI}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
     }
     return (
       <Fragment>
@@ -54,9 +59,13 @@ class DetailDoctor extends Component {
           </div>
           <div className="schedule-doctor">
             <div className="content-left">
-              <DoctorSchedule />
+              <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} />
             </div>
-            <div className="content-right"></div>
+            <div className="content-right">
+              <DoctorExtraInfor
+                doctorIdFromParent={this.state.currentDoctorId}
+              />
+            </div>
           </div>
           <div className="detail-infor-doctor">
             {detailDoctor &&

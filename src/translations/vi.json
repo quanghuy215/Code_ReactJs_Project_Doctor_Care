@@ -17,7 +17,8 @@
       "doctor-schedule": "Quản lí kế hoạch khám bệnh bác sĩ"
     },
     "doctor": {
-      "manage-schedule": "Quản lí kế hoạch khám bệnh bác sĩ"
+      "manage-schedule": "Quản lí kế hoạch khám bệnh bác sĩ",
+      "manage-patient": "Quản lí bệnh nhân khám bệnh"
     }
   }
 }

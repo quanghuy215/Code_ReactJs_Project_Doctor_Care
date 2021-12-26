@@ -57,7 +57,7 @@
         background-color: #eee;
 
         &.section-speciality {
-          background-image: url("../../assets/images/speciality.jpg");
+          //background-image: url("../../assets/images/specialty/speciality.jpg");
         }
 
         &.section-doctor {
@@ -68,6 +68,7 @@
       }
 
       .text-section {
+        padding: 10px 0;
         &:hover {
           color: #49bce2;
         }

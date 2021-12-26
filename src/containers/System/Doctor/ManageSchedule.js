@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import "./ManageSchedule.scss";
 import Select from "react-select";
 import * as actions from "../../../store/actions";
-import DarePicker from "../../../components/Input/DatePicker";
 import DatePicker from "../../../components/Input/DatePicker";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -122,12 +121,20 @@ class ManageSchedule extends Component {
       formatedDate: formatedDate,
     });
 
-    console.log("check saveBulkScheduleDoctor: ", res);
-    console.log("check result: ", result);
+    if (res && res.errCode === 0) {
+      toast.success("Save time success!!!");
+    } else {
+      toast.error("Error: saveBulkScheduleDoctor");
+      console.log("Error: saveBulkScheduleDoctor: ", res);
+    }
+
+    // console.log("check saveBulkScheduleDoctor: ", res);
+    // console.log("check result: ", result);
   };
   render() {
     let { rangeTime } = this.state;
     //console.log("check state: ", rangeTime);
+    let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
     return (
       <div className="manage-schedule-container">
@@ -148,7 +155,7 @@ class ManageSchedule extends Component {
                 className="form-control"
                 onChange={this.handleOnChangeDatePicker}
                 value={this.state.currentDate}
-                minDate={new Date()}
+                minDate={yesterday}
               />
             </div>
             <div className="col-12 pick-hour-container">

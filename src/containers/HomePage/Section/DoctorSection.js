@@ -55,7 +55,7 @@ class DoctorSection extends Component {
                   // if (index == 0) {
                   //   console.log("check item :", item.positionData.valueVi);
                   // }
-                  let nameDoctor = `${item.positionData.valueVi}, ${item.firstName} ${item.lastName}`;
+                  let nameDoctor = `${item.positionData.valueVI}, ${item.firstName} ${item.lastName}`;
                   return (
                     <div
                       className="section-customize"

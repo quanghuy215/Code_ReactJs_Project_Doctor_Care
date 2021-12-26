@@ -8,6 +8,7 @@ import {
   getTopDoctorService,
   getAllDoctor,
   saveDetailDoctorService,
+  getAllSpecialty,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -200,7 +201,7 @@ export const fetchTopDoctor = () => {
   return async (dispatch, getState) => {
     try {
       let res = await getTopDoctorService("10");
-      console.log("check res: ", res);
+      //console.log("check res: ", res);
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
@@ -224,7 +225,7 @@ export const fetchAllDoctors = () => {
   return async (dispatch, getState) => {
     try {
       let res = await getAllDoctor();
-     // console.log("check res: ", res);
+      // console.log("check res: ", res);
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
@@ -295,3 +296,48 @@ export const fetchAllCodeTime = () => {
     }
   };
 };
+
+export const getDoctorInfor = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: actionTypes.FETCH_DOCTOR_INFOR_START,
+      });
+      let resPrice = await getAllCodeServices("PRICE");
+      let resPayment = await getAllCodeServices("PAYMENT");
+      let resProvince = await getAllCodeServices("PROVINCE");
+      let resSpecialty = await getAllSpecialty();
+
+      if (
+        resPrice &&
+        resPrice.errCode === 0 &&
+        resPayment &&
+        resPayment.errCode === 0 &&
+        resProvince &&
+        resProvince.errCode === 0 &&
+        resSpecialty &&
+        resSpecialty.errCode === 0
+      ) {
+        let data = {
+          resPrice: resPrice.data,
+          resProvince: resProvince.data,
+          resPayment: resPayment.data,
+          resSpecialty: resSpecialty.data,
+        };
+        dispatch(fetchDoctorInforSuccess(data));
+      } else {
+        dispatch(fetchDoctorInforFailed());
+      }
+    } catch (e) {
+      dispatch(fetchDoctorInforFailed());
+      console.log("fetchDoctorInfor Error", e);
+    }
+  };
+};
+export const fetchDoctorInforSuccess = (allDoctorInfor) => ({
+  type: actionTypes.FETCH_DOCTOR_INFOR_SUCCESS,
+  data: allDoctorInfor,
+});
+export const fetchDoctorInforFailed = () => ({
+  type: actionTypes.FETCH_DOCTOR_INFOR_FAILED,
+});
